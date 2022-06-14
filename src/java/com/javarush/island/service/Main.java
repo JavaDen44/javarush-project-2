@@ -7,6 +7,5 @@ public class Main {
 
         Management management = new Management();
         management.start();
-
     }
 }

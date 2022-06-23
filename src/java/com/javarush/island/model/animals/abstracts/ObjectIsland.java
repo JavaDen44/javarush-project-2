@@ -1,9 +1,7 @@
 package com.javarush.island.model.animals.abstracts;
 
 public abstract class ObjectIsland {
-
     private double weight;
-
     private int maxCountOnLocation;
 
     protected ObjectIsland(double weight, int maxCountOnLocation) {
@@ -19,7 +17,5 @@ public abstract class ObjectIsland {
         return maxCountOnLocation;
     }
 
-    public void reproduce() {
-
-    }
+    public abstract void reproduce();
 }

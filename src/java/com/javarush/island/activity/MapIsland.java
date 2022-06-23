@@ -1,17 +1,26 @@
 package com.javarush.island.activity;
 
+import com.javarush.island.model.animals.abstracts.Animal;
+import com.javarush.island.model.animals.abstracts.ObjectIsland;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class MapIsland {
-
     private int wightIsland;
-
     private int lengthIsland;
-
     private Location[][] locations;
+    private ObjectIslandFactory factory;
 
     public MapIsland(int lengthIsland, int wightIsland) {
         this.wightIsland = wightIsland;
         this.lengthIsland = lengthIsland;
         this.locations = new Location[getLengthIsland()][getWightIsland()];
+        this.factory = new ObjectIslandFactory();
+    }
+
+    public Location[][] getLocations() {
+        return locations;
     }
 
     public int getWightIsland() {
@@ -22,67 +31,111 @@ public class MapIsland {
         return lengthIsland;
     }
 
-    public void createLocations(){
+    public void createLocations() {
 
-        for (int posX = 0; posX < getLengthIsland(); posX++) {
-            for (int posY = 0; posY < getWightIsland(); posY++) {
-                locations[posX][posY] = new Location(posX, posY);
+        for (int row = 0; row < getLengthIsland(); row++) {
+            for (int column = 0; column < getWightIsland(); column++) {
+                locations[row][column] = new Location(row, column);
             }
         }
     }
 
-    public void fillingLocations(){
-        for (int posX = 0; posX < locations.length; posX++) {
-            for (int posY = 0; posY < locations[posX].length; posY++) {
-
-                locations[posX][posY].addObjectInLocation();
-            }
-        }
-    }
-
-    public void printStatistic() {
-        for (int posX = 0; posX < locations.length; posX++) {
-            for (int posY = 0; posY < locations[posX].length; posY++) {
-
-                System.out.print("[ " + locations[posX][posY].getStatistic() + " ]");
-            }
-            System.out.println();
-        }
-    }
-
-    public void movingAroundLocations(){
-        for (int posX = 0; posX < locations.length; posX++) {
-            for (int posY = 0; posY < locations[posX].length; posY++) {
-                locations[posX][posY].moveObjectFromLocation();
-
-                int newPosX;
-                if (posX < locations.length-1) {
-                    newPosX = posX + 1;
-                } else {
-                    newPosX = posX;
+    public void fillingLocations() {
+        for (int row = 0; row < getLengthIsland(); row++) {
+            for (int column = 0; column < getWightIsland(); column++) {
+                String st = "";
+                for (TypesOnIsland types : TypesOnIsland.values()) {
+                    int random = ThreadLocalRandom.current().nextInt(1, factory.creatIsland(types).getMaxCountOnLocation());
+                    ObjectIsland objectIsland = factory.creatIsland(types);
+                    int count = 0;
+                    for (int t = 0; t < random; t++) {
+                        locations[row][column].getObjectIslands().add(objectIsland);
+                        count++;
+                    }
+                    st += objectIsland.getClass().getSimpleName() + " -> " + count + " ";
                 }
-
-                System.out.print("[ " + locations[newPosX][posY].getObj() + " ]");
+                System.out.print("[ " + st + "]");
             }
             System.out.println();
         }
     }
 
+    private void move(Animal animal, Location location) {
+        int numberSteps = ThreadLocalRandom.current().nextInt(0, animal.getTravelSpeed());
 
-    public void clearingLocations(){
-        for (int posX = 0; posX < locations.length; posX++) {
-            for (int posY = 0; posY < locations[posX].length; posY++) {
-
-                locations[posX][posY].removeObjectFromLocation();
+        while (numberSteps > 0) {
+            DirectionOfMovement direction = DirectionOfMovement.values()[ThreadLocalRandom.current().nextInt(DirectionOfMovement.values().length)];
+            switch (direction) {
+                case FORWARD -> location = forwardStep(animal, location);
+                case BACK -> location = backStep(animal, location);
+                case LEFT -> location = leftStep(animal, location);
+                case RIGHT -> location = rightStep(animal, location);
             }
         }
     }
 
-    public void printStatisticOneStep() {
-        for (int posX = 0; posX < locations.length; posX++) {
-            for (int posY = 0; posY < locations[posX].length; posY++) {
+    private Location forwardStep(Animal animal, Location thisLocation) {
+        int thisColumn = thisLocation.getColumn();
+        int thisRow = thisLocation.getRow();
+        if (thisRow > 0) {
+            Location newLocation = getLocations()[thisRow - 1][thisColumn];
+            newLocation.addObjectIsland(animal);
+            thisLocation.removeObjectIsland(animal);
+            return newLocation;
+        }
+        return thisLocation;
+    }
 
-                System.out.print("[ " + locations[posX][posY].getStatisticOneStep() + " ]");
+    private Location backStep(Animal animal, Location thisLocation) {
+        int thisColumn = thisLocation.getColumn();
+        int thisRow = thisLocation.getRow();
+        if (thisRow < getLengthIsland() - 1) {
+            Location newLocation = getLocations()[thisRow + 1][thisColumn];
+            newLocation.addObjectIsland(animal);
+            thisLocation.removeObjectIsland(animal);
+            return newLocation;
+        }
+        return thisLocation;
+    }
+
+    private Location leftStep(Animal animal, Location thisLocation) {
+        int thisColumn = thisLocation.getColumn();
+        int thisRow = thisLocation.getRow();
+        if (thisColumn > 0) {
+            Location newLocation = getLocations()[thisRow][thisColumn - 1];
+            newLocation.addObjectIsland(animal);
+            thisLocation.removeObjectIsland(animal);
+            return newLocation;
+        }
+        return thisLocation;
+    }
+
+    private Location rightStep(Animal animal, Location thisLocation) {
+        int thisColumn = thisLocation.getColumn();
+        int thisRow = thisLocation.getRow();
+        if (thisColumn < getWightIsland() - 1) {
+            Location newLocation = getLocations()[thisRow][thisColumn + 1];
+            newLocation.addObjectIsland(animal);
+            thisLocation.removeObjectIsland(animal);
+            return newLocation;
+        }
+        return thisLocation;
+    }
+
+    public void movingAroundLocations() {
+        for (int row = 0; row < getLengthIsland(); row++) {
+            for (int column = 0; column < getWightIsland(); column++) {
+                String st = "";
+                int count = 0;
+                List<Animal> animals = locations[row][column].getAnimals();
+                Animal animal = null;
+                for (int a = 0; a < animals.size(); a++) {
+                    animal = animals.get(a);
+                    move(animals.get(a), locations[row][column]);
+                    count++;
+                }
+                st += animal.getClass().getSimpleName() + " -> " + count + " ";
+                System.out.print("[ " + st + "]");
             }
             System.out.println();
         }

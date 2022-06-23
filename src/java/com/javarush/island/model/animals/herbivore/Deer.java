@@ -3,7 +3,6 @@ package com.javarush.island.model.animals.herbivore;
 import com.javarush.island.model.animals.abstracts.HerbivoreAnimal;
 
 public class Deer extends HerbivoreAnimal {
-
     public Deer() {
         super(300, 20, 4, 50);
     }
@@ -15,16 +14,6 @@ public class Deer extends HerbivoreAnimal {
 
     @Override
     public void eat() {
-
-    }
-
-    @Override
-    public void selectDirection() {
-
-    }
-
-    @Override
-    public void move() {
 
     }
 }

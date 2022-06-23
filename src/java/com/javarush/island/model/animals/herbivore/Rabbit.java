@@ -3,7 +3,6 @@ package com.javarush.island.model.animals.herbivore;
 import com.javarush.island.model.animals.abstracts.HerbivoreAnimal;
 
 public class Rabbit extends HerbivoreAnimal {
-
     public Rabbit() {
         super(2, 150, 2, 0.45);
     }
@@ -15,16 +14,6 @@ public class Rabbit extends HerbivoreAnimal {
 
     @Override
     public void eat() {
-
-    }
-
-    @Override
-    public void selectDirection() {
-
-    }
-
-    @Override
-    public void move() {
 
     }
 }

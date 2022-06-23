@@ -2,9 +2,9 @@ package com.javarush.island.model.animals.carnivore;
 
 import com.javarush.island.model.animals.abstracts.CarnivoreAnimal;
 
-public class BoaConstrictor extends CarnivoreAnimal {
+public class Boa extends CarnivoreAnimal {
 
-    public BoaConstrictor() {
+    public Boa() {
         super(15,30,1,3);
     }
 
@@ -15,16 +15,6 @@ public class BoaConstrictor extends CarnivoreAnimal {
 
     @Override
     public void eat() {
-
-    }
-
-    @Override
-    public void selectDirection() {
-
-    }
-
-    @Override
-    public void move() {
 
     }
 }

@@ -1,15 +1,15 @@
 package com.javarush.island.activity;
 
 public class Management {
+    private MapIsland mapIsland;
 
-    public void start(){
+    public Management() {
+        this.mapIsland = new MapIsland(100, 20);
+    }
 
-        MapIsland mapIsland = new MapIsland(100,20);
+    public void start() {
         mapIsland.createLocations();
         mapIsland.fillingLocations();
-        mapIsland.printStatistic();
-        //mapIsland.clearingLocations();
         //mapIsland.movingAroundLocations();
-        //mapIsland.printStatisticOneStep();
     }
 }

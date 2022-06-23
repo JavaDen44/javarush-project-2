@@ -1,9 +1,7 @@
 package com.javarush.island.model.animals.abstracts;
 
 public abstract class Animal extends ObjectIsland {
-
     private int travelSpeed;
-
     private double maxCountSaturation;
 
     protected Animal(double weight, int maxCountOnLocation, int travelSpeed, double maxCountSaturation) {
@@ -21,19 +19,7 @@ public abstract class Animal extends ObjectIsland {
     }
 
     @Override
-    public void reproduce() {
+    public abstract void reproduce();
 
-    }
-
-    public void eat() {
-
-    }
-
-    public void selectDirection() {
-
-    }
-
-    public void move() {
-
-    }
+    public abstract void eat();
 }

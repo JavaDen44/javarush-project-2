@@ -3,7 +3,6 @@ package com.javarush.island.model.animals.carnivore;
 import com.javarush.island.model.animals.abstracts.CarnivoreAnimal;
 
 public class Eagle extends CarnivoreAnimal {
-
     public Eagle() {
         super(6, 20, 3, 1);
     }
@@ -15,16 +14,6 @@ public class Eagle extends CarnivoreAnimal {
 
     @Override
     public void eat() {
-
-    }
-
-    @Override
-    public void selectDirection() {
-
-    }
-
-    @Override
-    public void move() {
 
     }
 }

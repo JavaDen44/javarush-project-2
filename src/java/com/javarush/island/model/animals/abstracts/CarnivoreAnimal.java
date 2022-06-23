@@ -1,7 +1,6 @@
 package com.javarush.island.model.animals.abstracts;
 
 public abstract class CarnivoreAnimal extends Animal {
-
     protected CarnivoreAnimal(double weight, int maxCountOnLocation, int travelSpeed, double maxCountSaturation) {
         super(weight, maxCountOnLocation, travelSpeed, maxCountSaturation);
     }
@@ -13,16 +12,6 @@ public abstract class CarnivoreAnimal extends Animal {
 
     @Override
     public void eat() {
-
-    }
-
-    @Override
-    public void selectDirection() {
-
-    }
-
-    @Override
-    public void move() {
 
     }
 }
